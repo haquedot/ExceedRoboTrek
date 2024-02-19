@@ -1,24 +1,29 @@
 $(document).ready(function () {
-    // $(".agenda-nav a").click(function () {
-    //     $(".agenda-table").children().first().addClass("active-img");
-    //     $(".agenda-nav a").removeClass("active");
-    //     $(this).addClass("active");
-    //     $(".agenda-table").hide();
-    //     var sectionId = $(this).attr("href");
-    //     $(sectionId).show();
-    // });
+    
+    function updateImage(dayContentId) {
+        $(".img-campAgenda img").attr('src', 'images/' + dayContentId + '.webp');
+    }
+
     $(".day-content").click(function () {
         $(".agenda-table .day-content").removeClass("active-img");
         $(this).addClass("active-img");
         var dayContent = $(this).attr("id");
-        console.log(dayContent)
-        $(".img-campAgenda img").attr('src', 'images/' + dayContent + '.webp');
+        updateImage(dayContent);
     });
+
     $('.btnag').click(function () {
-        var index = $('.btnag').index(this);
+        var index = $(this).index(); 
         $(".agenda-nav button").removeClass("active");
         $(this).addClass("active");
         $('.agenda-ul').eq(index).show().siblings('.agenda-ul').hide();
+
+        var $activeDayContent = $('.agenda-ul').eq(index).find('.day-content.active-img');
+        if ($activeDayContent.length === 0) {
+            $activeDayContent = $('.agenda-ul').eq(index).find('.day-content').first();
+            $activeDayContent.addClass('active-img');
+        }
+        var activeDayContentId = $activeDayContent.attr('id');
+        updateImage(activeDayContentId);
     });
 
 });
